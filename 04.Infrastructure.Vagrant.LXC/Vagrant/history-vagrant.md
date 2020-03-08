@@ -1,3 +1,4 @@
+```bash
     1  sudo apt-get update -y && sudo apt-get upgrade -y
     2  sudo usermod -aG sudo vagrant-test 
     3  sudo apt update -y && sudo apt upgrade -y
@@ -368,3 +369,4 @@
   368  cd for-github/
   369  ls
   370  history > history.txt
+```
