@@ -1,2 +1,4 @@
 script.py
+.vagrant
+boxes/*
 /.vagrant
