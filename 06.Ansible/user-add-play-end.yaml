@@ -1,5 +1,6 @@
 ---
 - hosts: center
+  gather_facts: no
   tasks:
   - name: Add a new user named {{ user_to_add }}
     user:
@@ -23,19 +24,21 @@
   - name: Restart service sshd
     shell: systemctl restart sshd.service 
 - hosts: host2
+  gather_facts: no
   tasks:
   - name: Add line visudo Ubuntu
     lineinfile:
       dest: /etc/sudoers
       state: present
-      insertafter: "Allows people in group wheel"
+      insertafter: EOF
       line: "{{ user_to_add }} ALL=(ALL) NOPASSWD: /usr/bin/apt-get update, /usr/bin/apt-get upgrade"
 - hosts: host1
+  gather_facts: no
   tasks:
   - name: Add line visudo CentOS
     lineinfile:
       dest: /etc/sudoers
       state: present
-      insertafter: "Allows people in group wheel" 
+      insertafter: EOF 
       line: "{{ user_to_add }} ALL=(ALL) NOPASSWD: /bin/yum update, /bin/yum upgrade"
 
