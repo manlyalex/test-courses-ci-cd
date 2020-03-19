@@ -9,4 +9,6 @@ yum_nginx_packages:
   - nginx  
   - git   
 
-default_home: "/var/www/html"
+default_home_1: "/var/www/test1.com/html"
+
+default_home_2: "/var/www/test2.com/html"

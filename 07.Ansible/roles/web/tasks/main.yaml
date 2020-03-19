@@ -9,16 +9,29 @@
 
 - name: Remove Index file
   file:
-    path: "{{ default_home }}/index.html"
+    path: "{{ default_home_1 }}/index.html"
+    state: absent
+
+- name: Remove Index file
+  file:
+    path: "{{ default_home_2 }}/index.html"
     state: absent
 
 
 - name: Copy first page
   copy:
     src: index.html
-    dest: "{{ default_home }}"
+    dest: "{{ default_home_1 }}"
   notify:
     - restart nginx
+      
+- name: Copy first page
+  copy:
+    src: index.html
+    dest: "{{ default_home_2 }}"
+  notify:
+    - restart nginx
+
 
 - meta: flush_handlers
 
@@ -53,4 +66,10 @@
     return_content: yes
   loop: "{{ virtual_hosts }}"
   register: this
-  failed_when: "'comrates' not in this.content"
+  failed_when:{% if 'comrates' not in this.content %} True {% else 'nginx' not in this.content %} True 
+  {% endif %} 
+#- name: Print ansible_fqdn
+#  debug:
+#    msg: "ansible_fqdn is {{ ansible_fqdn }}"
+
+
