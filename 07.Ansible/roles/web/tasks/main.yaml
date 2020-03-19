@@ -62,14 +62,15 @@
 
 - name: Check content to the sites
   uri:
-    url: "http://{{ item.name }}"
-    return_content: yes
-  loop: "{{ virtual_hosts }}"
+    url: http://test1.com
+    return_content: yes 
   register: this
-  failed_when:{% if 'comrates' not in this.content %} True {% else 'nginx' not in this.content %} True 
-  {% endif %} 
-#- name: Print ansible_fqdn
-#  debug:
-#    msg: "ansible_fqdn is {{ ansible_fqdn }}"
+  failed_when: "'comrates' not in this.content" 
 
+- name: Check content to the sites
+  uri:
+    url: http://test2.com
+    return_content: yes
+  register: this
+  failed_when: "'nginx' not in this.content"
 
