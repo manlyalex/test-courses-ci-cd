@@ -14,7 +14,7 @@
 
 - name: Remove Index file
   file:
-    path: "{{ default_home_2 }}/index.html"
+    path: "{{ default_home_2 }}/nginx.index.html"
     state: absent
 
 
@@ -27,7 +27,7 @@
       
 - name: Copy first page
   copy:
-    src: index.html
+    src: index.nginx.html
     dest: "{{ default_home_2 }}"
   notify:
     - restart nginx
