@@ -17,7 +17,6 @@
     path: "{{ default_home_2 }}/nginx.index.html"
     state: absent
 
-
 - name: Copy first page
   copy:
     src: index.html
@@ -31,7 +30,6 @@
     dest: "{{ default_home_2 }}"
   notify:
     - restart nginx
-
 
 - meta: flush_handlers
 
@@ -52,8 +50,6 @@
     timeout: 3
   register: out
 
-  #- debug:
-  #    msg: "{{ out }}"
 - name: Templates
   template:
     src: "hosts.j2"
