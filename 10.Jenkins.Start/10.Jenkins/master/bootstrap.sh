@@ -4,8 +4,6 @@ wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.r
 rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 yum install jenkins -y --nogpgcheck -q
 usermod -s /bin/bash jenkins
-#sudo firewall-cmd --permanent --service=jenkins --add-port=8080/tcp
-#sudo firewall-cmd --reload
 systemctl enable jenkins
 systemctl start jenkins
 echo "##### Waiting for secret"
