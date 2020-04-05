@@ -1,1 +1,6 @@
-Срд сак 18 16:27:15 +03 2020
+# work with host1 host2
+Host bastion
+        User jump_sa
+        HostName 178.124.206.53
+Host 192.168.37.* 192.168.31.* 192.168.203.*
+        ProxyJump bastion
