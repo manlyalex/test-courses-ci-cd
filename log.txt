@@ -51,12 +51,12 @@ using GIT_ASKPASS to set credentials
  > git fetch --tags --progress https://github.com/manlyalex/test-courses-ci-cd.git +refs/heads/*:refs/remotes/origin/* # timeout=10
  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
  > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
-Checking out Revision b053ffc712f336c488a0d067e31ca147f5259de5 (refs/remotes/origin/master)
+Checking out Revision 9a8a27a747ef3673a85c57192d18a294681ad8e3 (refs/remotes/origin/master)
  > git config core.sparsecheckout # timeout=10
- > git checkout -f b053ffc712f336c488a0d067e31ca147f5259de5 # timeout=10
+ > git checkout -f 9a8a27a747ef3673a85c57192d18a294681ad8e3 # timeout=10
  > git branch -a -v --no-abbrev # timeout=10
- > git checkout -b master b053ffc712f336c488a0d067e31ca147f5259de5 # timeout=10
-Commit message: "Update 1.txt"
+ > git checkout -b master 9a8a27a747ef3673a85c57192d18a294681ad8e3 # timeout=10
+Commit message: "Add log file"
  > git rev-list --no-walk b053ffc712f336c488a0d067e31ca147f5259de5 # timeout=10
 [8mha:////4LpvNUId0qYYe3wUB4qV6R/zURdm8pZmLWxrbVoyrbHKAAAApR+LCAAAAAAAAP9tjTEOwjAQBC9BFLSUPOIiCiQkRJXWcsMLTGyME+vO2A5JxYv4Gn8gEImKLVY728zzBcsU4cjRYmuoc5Qah8H3dlo4cOwungds+YwNU2JvUJpBsjb1jJKzgTlFCQsBK0ON5+TIZliLVt1V5RXZ6pTj9B0ElE7f4AGFmMxZxfyFMcLm2uvE9PP8FcAYQoZyu//U7g1b0dOKvgAAAA==[0m[Pipeline] }
 [8mha:////4IBn9GZXgZ2Z7CEhpBoYthzaFgbmEB2bQUis/bV8OtYzAAAApR+LCAAAAAAAAP9tjTEOwjAQBC9BFLSUPOIiJBqEqNJabniBiY1xYt0Z2yGpeBFf4w8EIlGxxWpnm3m+YJkiHDlabA11jlLjMPjeTgsHjt3F84Atn7FhSuwNSjNI1qaeUXI2MKcoYSFgZajxnBzZDGvRqruqvCJbnXKcvoOA0ukbPKAQkzmrmL8wRthce52Yfp6/AhhDyFBu95/avQFoMog2vgAAAA==[0m[Pipeline] // node
@@ -112,7 +112,7 @@ Complete!
 + awk '
                  /hosts up/ {print "[32m" $0 "[39m"}'
 + tail -n1
-[32mNmap done: 256 IP addresses (58 hosts up) scanned in 2.04 seconds[39m
+[32mNmap done: 256 IP addresses (58 hosts up) scanned in 2.06 seconds[39m
 + sudo yum remove nmap -y
 Loaded plugins: fastestmirror
 Resolving Dependencies
@@ -161,27 +161,27 @@ Running on [8mha:////4PWawGl4jth6mWD7uS2gB5gGeloJbUk20l3cZhvYRWpuAAAAoh+LCAAAAA
 [8mha:////4DKP2YQvHEhRsguJsOEJU+hjwirBGkvVa6KadBV07xrzAAAApB+LCAAAAAAAAP9tjTEOwjAQBC9BFLSUPOICEh2iSmu54QUmNsaJdWdsh6TiRXyNPxCIRMUWq51t5vmCZYpw5GixNdQ5So3D4Hs7LRw4dhfPA7Z8xoYpsTcozSBZm3pGydnAnKKEhYCVocZzcmQzrEWr7qryimx1ynH6DgJKp2/wgEJM5qxi/sIYYXPtdWL6ef4KYAwZyv32U7vwBl2WGva+AAAA[0m[Pipeline] sh
 + python
 + wget -O - https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
---2020-04-06 12:33:27--  https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
+--2020-04-06 12:37:50--  https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
 Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 151.101.0.133, 151.101.64.133, 151.101.128.133, ...
 Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|151.101.0.133|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 65018 (63K) [text/plain]
 Saving to: 'STDOUT'
 
-     0K .......... .......... .......... .......... .......... 78%  671K 0s
-    50K .......... ...                                        100%  232M=0.07s
+     0K .......... .......... .......... .......... .......... 78%  727K 0s
+    50K .......... ...                                        100%  243M=0.07s
 
-2020-04-06 12:33:28 (852 KB/s) - written to stdout [65018/65018]
+2020-04-06 12:37:50 (922 KB/s) - written to stdout [65018/65018]
 
 Retrieving speedtest.net configuration...
 Testing from COSMOS Telecom (178.172.195.18)...
 Retrieving speedtest.net server list...
 Selecting best server based on ping...
-Hosted by Mobile TeleSystems JLLC (Minsk) [0.08 km]: 22.611 ms
+Hosted by Mobile TeleSystems JLLC (Minsk) [0.08 km]: 20.902 ms
 Testing download speed................................................................................
-Download: 393.10 Mbit/s
+Download: 336.66 Mbit/s
 Testing upload speed................................................................................................
-Upload: 201.16 Mbit/s
+Upload: 836.33 Mbit/s
 [8mha:////4DEo5JOZOv0xZPjnAszoczVzx5w4sCQWPEwWJ0+YrV1TAAAApB+LCAAAAAAAAP9tjTEOwjAQBC9BFLSUPOKCEB2iSmu54QUmNsaJdWdsh6TiRXyNPxCIRMUWq51t5vmCZYpw5GixNdQ5So3D4Hs7LRw4dhfPA7Z8xoYpsTcozSBZm3pGydnAnKKEhYCVocZzcmQzrEWr7qryimx1ynH6DgJKp2/wgEJM5qxi/sIYYXPtdWL6ef4KYAwhQ7nffWr7BlDdbXS+AAAA[0m[Pipeline] }
 [8mha:////4LeejpbwIs3NJzT+xCOTFIXXt1JfHdEDc83wdtzywHSLAAAApR+LCAAAAAAAAP9tjTEOwjAQBC9BFLSUPOJShAYhqrRWGl5gYmOcWHfGdkgqXsTX+AMWkajYYrWzzbzesI4BThwM9poGS7Gz6N1o8sKJw3B1PGHPF+yYIjuNrZ5aVrpZsOWkYUlRwkrARlPnOFoyCbailw9ZOUmmOqeQv6OA0qo7PKEQ2ZxkSF+YA+xuo4pMP89fAczeJyj3da768AGWIKyJvgAAAA==[0m[Pipeline] // node
 [8mha:////4Glub84CZWHvRniAWIY16/c7sjHnIcVbRbRWBVVXhE1HAAAApR+LCAAAAAAAAP9tjTEOwjAQBC9BFLSUPMIpSIGEqNJaaXiBiQ/jxLoztkNS8SK+xh+wiETFFqudbeb1hnUMcOJgRI80WIqdFd6NJi8xcRiujifR80V0TJEdihanljU2C7acEJYUJawkbJA6x9GSSbCVvXqoyiky1TmF/B0llFbf4QmFzOakQvrCHGB3G3Vk+nn+CmD2PkFZ17n2hw+4IK7jvgAAAA==[0m[Pipeline] }
