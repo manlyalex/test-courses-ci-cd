@@ -1,0 +1,66 @@
+---
+- hosts: all
+  become: true
+  gather_facts: no
+  vars:
+    NODEJS_VERSION: "8"
+    ansible_distribution_release: "xenial" #trusty
+  pre_tasks:
+    - name: check host
+      shell: |
+        hostname
+      register: out
+
+    - name: Show host
+      debug:
+        msg: "{{ out.stdout }}"
+
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: yes
+        update_cache: yes
+
+    - name: Check for Python
+      raw: test -e /usr/bin/python
+      changed_when: false
+      failed_when: false
+      register: check_python
+
+    - name: Install Python
+      raw: apt -y update && apt install -y python-minimal
+      when: check_python.rc != 0
+
+    - name: Install the gpg key for nodejs LTS
+      apt_key:
+        url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+        state: present
+
+    - name: Install the nodejs LTS repos
+      apt_repository:
+        repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main"
+        state: present
+        update_cache: yes
+
+    - name: Install the nodejs
+      apt:
+        name: nodejs
+        state: present
+
+    - name: install mongoDB
+      apt:
+        name: mongodb
+        state: present
+        update_cache: yes
+      notify:
+      - start mongodb
+
+  handlers:
+    - name: start mongodb
+      service:
+        name: mongod
+        state: started
+        enabled: yes
+
+  roles:
+  - web
