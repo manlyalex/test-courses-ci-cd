@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('clone repo') {
+            steps{
+                deleteDir()
+                git branch: 'master',
+                url: 'https://github.com/manlyalex/node-todo'
+            }
+        }
+        stage('ls') {
+            steps{
+                sh 'ls -l'
+            }
+        }
+        stage('npm install') {
+            steps{
+                sh 'npm install'
+            }
+        }
+        stage('npm test lint') {
+            steps{
+                sh 'npm run test'
+            }
+        }
+        stage('version') {
+            steps{
+                sh '''
+                #!/bin/bash
+                if [$VERSION == "null"]; then
+                  echo "update version is skipped";
+                else
+                  git config --global user.name $USER_NAME
+                  git config --global user.email $USER_EMAIL
+                  git checkout master
+                  npm version $VERSION -m "Bumped version %s."
+                fi
+                '''
+            }
+        }
+        stage ("SSH copy") {
+          steps{
+            withCredentials([sshUserPrivateKey(credentialsId: 'my_id', keyFileVariable: 'identity', passphraseVarialbe: '', usernameVariable: 'username')]) {
+              script{
+              def remote = [:]
+              remote.name = "root"
+              remote.identityFile = "my_path"
+              remote.host = "192.168.100.246"
+              remote.allowAnyHosts = true
+              remote.user = "$username"
+              remote.password = "$password"
+              
+              sshPut remote: remote, from: '.', into: '/home/user/prod'
+                    }
+                }    
+            }
+        }
+    }
+}
