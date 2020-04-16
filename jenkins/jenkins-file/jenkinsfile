@@ -19,37 +19,67 @@ pipeline {
                 sh 'npm install'
             }
         }
-        stage('npm test lint') {
-            steps{
-                sh 'npm run test'
-            }
-        }
         stage('version') {
             steps{
                 sh '''
-                #!/bin/bash
-                if [$VERSION == "null"]; then
-                  echo "update version is skipped";
-                else
                   git config --global user.name $USER_NAME
                   git config --global user.email $USER_EMAIL
-                  git checkout master
-                  npm version $VERSION -m "Bumped version %s."
-                fi
+                  newVersion="$(npm version patch -m "Bumped version %s.")"
+                  echo $newVersion
                 '''
             }
         }
+        stage('Publish') {
+            steps {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'git_hub', usernameVariable: 'GIT_AUTHOR_NAME', passwordVariable: 'GIT_PASSWORD']]) {
+                    sh('git push https://${GIT_AUTHOR_NAME}:${GIT_PASSWORD}github.com/manlyalex/node-todo.git master --tags')
+                }
+            }
+        }
+        stage ('Invoke_pipeline') {
+            steps {
+                build job: 'pipeline1', parameters: [
+                string(name: 'VERSION_TO_DEPLOY', value: $newVersion)
+                ]
+            }
+        }
+    }
+}
+
+
+
+
+pipeline {
+    agent any
+
+    stages {
+        stage('clone repo') {
+            steps{
+                deleteDir()
+                git branch: 'master',
+                url: 'https://github.com/manlyalex/node-todo'
+            }
+        }
+        stage('deploy app with version') {
+            steps{
+                sh '''
+                #!bin/bash
+                if [ $VERSION_TO_DEPLOY != "" ]; then
+                git checkout tags/$VERSION_TO_DEPLOY -b jenkins-branch
+                fi
+                '''
+            }
+        }        
         stage ("SSH copy") {
           steps{
-            withCredentials([sshUserPrivateKey(credentialsId: 'my_id', keyFileVariable: 'identity', passphraseVarialbe: '', usernameVariable: 'username')]) {
+            withCredentials([sshUserPrivateKey(credentialsId: 'host-246', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'username')]) {
               script{
               def remote = [:]
               remote.name = "root"
-              remote.identityFile = "my_path"
+              remote.identityFile = "~/.ssh/id_rsa"
               remote.host = "192.168.100.246"
               remote.allowAnyHosts = true
               remote.user = "$username"
-              remote.password = "$password"
               
               sshPut remote: remote, from: '.', into: '/home/user/prod'
                     }
