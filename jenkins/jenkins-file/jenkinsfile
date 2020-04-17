@@ -18,17 +18,20 @@ pipeline {
             steps{
                 sh 'npm install'
             }
-        }
-        stage('version') {
+        } 
+        stage('config') {
             steps{
                 sh '''
                   git config --global user.name $USER_NAME
                   git config --global user.email $USER_EMAIL
-                  newVersion="$(npm version patch -m "Bumped version %s.")"
-                  echo $newVersion
                 '''
             }
         }
+        stage('create new version') {
+            steps{
+                sh "npm version patch -m "Bumped version %s."='attribute=${env.NEW_VERSION}'"
+            }
+        } 
         stage('Publish') {
             steps {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'git_hub', usernameVariable: 'GIT_AUTHOR_NAME', passwordVariable: 'GIT_PASSWORD']]) {
@@ -39,7 +42,7 @@ pipeline {
         stage ('Invoke_pipeline') {
             steps {
                 build job: 'pipeline1', parameters: [
-                string(name: 'VERSION_TO_DEPLOY', value: $newVersion)
+                string(name: 'VERSION_TO_DEPLOY', value: ${env.NEW_VERSION})
                 ]
             }
         }
@@ -86,5 +89,22 @@ pipeline {
                 }    
             }
         }
+    }
+}
+
+newVersion = 'initial_value'
+pipeline {
+    agent any
+    stages {
+        stage (New version){
+            steps {
+                echo "${newVersion}"
+                script {
+                    newVersion = sh(script: 'npm version patch -m "Bumped version %s."', returnStdout: true).trim()
+                }
+            echo "${newVersion}"
+            } 
+        }
+
     }
 }
